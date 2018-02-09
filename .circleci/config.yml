@@ -1,0 +1,16 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: dhsshine/tizen-studio:2.1
+    steps:
+      - checkout
+      - run:
+          name: Install Tizen 4.0 Mobile packages
+          command: package-manager-cli.bin install MOBILE-4.0
+      - run:
+          name: Build native app by gcc for arm targets
+          command: tizen build-native -a arm -c gcc -C Debug
+      - run:
+          name: Package tpk
+          command: cd Debug && tizen package -t tpk
